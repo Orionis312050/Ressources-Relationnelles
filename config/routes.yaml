@@ -1,0 +1,18 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+dashboard:
+    path: /admin
+    controller: App\Controller\Admin\DashboardController::index
+easy_admin_bundle:
+    resource: '@EasyAdminBundle/Controller/AbstractDashboardController.php'
+    prefix: /admin
+    type: annotation
+
+search_posts:
+    path: /search
+    controller: App\Controller\PostController::search
+

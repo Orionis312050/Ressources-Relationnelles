@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href={{ asset('css/create-account.css') }}>
+    {%  endblock %}
+<main class="container">
+    <h1>Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.firstName) }}
+        {{ form_row(registrationForm.lastName) }}
+        {{ form_row(registrationForm.avatarImg) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+
+
+    <section id="avatar-section">
+        <div id="avatar"></div>
+        <label for="name">Saisissez votre prénom et votre nom</label>
+        <input type="name" id="name" name="name" placeholder="John Doe"/>
+    </section>
+
+    <section id="info-account-section">
+        <div>
+            <label for="address">Saisissez votre adresse</label>
+            <input type="text" id="address" name="address" placeholder="13 rue de la route"/>
+        </div>
+        <div id="city-div">
+            <label for="postal-code" class="postal-code">Saisissez votre code postal</label>
+            <input type="number" class="postal-code" name="postal-code" placeholder="75000" maxlength="5"/>
+            <label for="city" class="city">Saisissez votre ville</label>
+            <input type="text" class="city" name="city" placeholder="Paris"/>
+        </div>
+        <div>
+            <label for="email">Saisissez votre adresse email</label>
+            <input type="email" id="email" name="email" placeholder="john.doe@exemple.com"/>
+        </div>
+        <div>
+            <label for="password">Saisissez votre mot de passe</label>
+            <input type="password" id="password" name="password"/>
+        </div>
+    </section>
+
+    <section id="submit-button">
+        <button type="submit">Créer votre compte</button>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href={{ asset('css/single-ressource.css') }}>
+    {% endblock %}
+    <main class="container">
+        <section class="ressources">
+            <h1>{{ post.getTitle() }}</h1>
+            <article>
+                <h2>Lieu d'activité : </h2>
+                <p>{{ post.getAddress() }}</p>
+            </article>
+            <h2>Type :</h2>
+            <p> {{ post.getType().name }}</p>
+        </section>
+        <section style="position: relative;min-height: 70vh; margin-top:40px">
+            {% for img in images %}
+                <img src="{{ img.src }}" alt="Rencontre" style="position: absolute; top:{{ img.y }}px; left:{{ img.x }}px; width: {{ img.width }}px; height: {{ img.height }}px; z-index:-1;">
+            {% endfor %}
+            {% for paragraph in paragraphes %}
+                <div style="position: absolute; top:{{ paragraph.y }}px; left:{{ paragraph.x }}px; width: {{ paragraph.width }}px; height: {{ paragraph.height }}px; z-index:-1;">
+                    {{ paragraph.getContent()|raw }}
+                </div>
+            {% endfor %}
+        </section>
+        <section class="actions-section">
+    <article class="actions">
+
+
+
+
+
+<form id="likeForm" action="{{ path('app_post_actions', {'id': post.getId()}) }}" method="post">
+    <input type="hidden" name="_method" value="POST">
+    <p hidden>{{ csrf_token('like_form') }}<p>
+    <input type="hidden" name="action" value="like">
+    <button type="submit" class="like-link">
+        {% if existingLike %}
+            <img src="{{ asset('medias/like-yellow.png')}}" alt="Liker">
+        {% else %}
+            <img src="{{ asset('medias/like-green.png')}}" alt="Liker">
+        {% endif %}
+    </button>
+</form>
+
+<form id="favoriteForm" action="{{ path('app_post_actions', {'id': post.getId()}) }}" method="post">
+    <input type="hidden" name="_method" value="POST">
+    <p hidden>{{ csrf_token('favorite_form') }}</p>
+    <input type="hidden" name="action" value="favorite">
+    <button type="submit" class="favorite-link">
+        {% if existingFavorite %}
+            <img src="{{ asset('medias/favorite-yellow.png')}}" alt="Enregistrer">
+        {% else %}
+            <img src="{{ asset('medias/favorite-green.png')}}" alt="Enregistrer">
+        {% endif %}
+    </button>
+</form>
+
+
+<script>
+    document.querySelector('.like-link').addEventListener('click', function () {
+        document.querySelector('#likeForm').submit();
+    });
+
+    document.querySelector('.favorite-link').addEventListener('click', function () {
+        document.querySelector('#favoriteForm').submit();
+    });
+</script>
+
+
+
+
+
+        <a href="#">
+            <img src="{{ asset('medias/exploited-green.png')}}" alt="Exploiter">
+        </a>
+        <a href="#">
+            <img src="{{ asset('medias/send-green.png')}}" alt="Partager">
+        </a>
+    </article>
+    <article class="space">
+        <div class="line"></div>
+        <h3>Commentaires</h3>
+        <div class="line"></div>
+    </article>
+</section>
+
+
+        <section class="comment-section">
+            <article class="comment">
+                <div class="comment-user">
+                    <img src="{{ asset('medias/user-green.png')}}" alt="Avatar user">
+                    <a href="#">User 1</a>
+                </div>
+                <div>
+                    <p>Aenean dapibus consectetur urna eget hendrerit. Nulla fringilla, dolor vitae consectetur sodales, nulla quam tristique mauris, vel tempor quam nisl blandit magna.</p>
+                </div>
+                <div class="comment-actions">
+                    <img src="{{ asset('medias/like-green.png')}}" alt="like">
+                    <a href="#add-comment">Répondre</a>
+                </div>
+            </article>
+            <article class="answer-comment comment">
+                <div class="comment-user">
+                    <img src="{{ asset('medias/user-green.png')}}" alt="Avatar user">
+                    <a href="#">User 2</a>
+                </div>
+                <div>
+                    <p><a href="#">@user1</a> Aenean dapibus consectetur urna eget hendrerit. Nulla fringilla, dolor vitae consectetur sodales, nulla quam tristique mauris, vel tempor quam nisl blandit magna.</p>
+                </div>
+                <div class="comment-actions">
+                    <img src="{{ asset('medias/like-green.png')}}" alt="like">
+                    <a href="#add-comment">Répondre</a>
+                </div>
+            </article>
+            <article class="comment">
+                <div class="comment-user">
+                    <img src="{{ asset('medias/user-green.png')}}" alt="Avatar user">
+                    <a href="#">User 3</a>
+                </div>
+                <div>
+                    <p>Aenean dapibus consectetur urna eget hendrerit. Nulla fringilla, dolor vitae consectetur sodales, nulla quam tristique mauris, vel tempor quam nisl blandit magna.</p>
+                </div>
+                <div class="comment-actions">
+                    <img src="{{ asset('medias/like-green.png')}}" alt="like">
+                    <a href="#add-comment">Répondre</a>
+                </div>
+            </article>
+        </section>
+    </main>
+{% endblock %}

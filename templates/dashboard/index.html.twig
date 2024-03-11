@@ -1,0 +1,311 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href={{ asset('css/dashboard.css') }}>
+    {%  endblock %}
+<body>
+    <main class="container">
+        <section>
+            <article class="dashboard-title">
+                <span></span>
+                <h2>Statistiques</h2>
+                <span></span>
+            </article>
+            <article>
+                <select name="stats" id="stats-select">
+                    <option value="latest-month">Le mois dernier</option>
+                    <option value="three-latest-month">3 derniers mois</option>
+                    <option value="six-latest-month">6 derniers mois</option>
+                    <option value="latest-year">La dernière année</option>
+                    <option value="all">Sans filtre</option>
+                </select>
+            </article>
+            <article id="stat-value">
+                <div>
+                    <p id="show-visits-stat">{{ statistiques.visits }}</p>
+                    <p>Visites</p>
+                </div>
+                <div>
+                    <p id="show-post-stat">{{ statistiques.postStats }}</p>
+                    <p>Création de ressources</p>
+                </div>
+                <div>
+                    <p id="show-user-stat">{{ statistiques.userStats }}</p>
+                    <p>Création de comptes</p>
+                </div>
+                <div>
+                    <p>249</p>
+                    <p>Commentaires</p>
+                </div>
+            </article>
+        </section>
+
+
+
+        <section>
+            <article class="dashboard-title">
+                <span></span>
+                <h2>Ressources</h2>
+                <span></span>
+            </article>
+            <article class="search">
+                <div>
+                    <label for="posts-search">
+                        <img src="medias/search-green.png" alt="search">
+                    </label>
+                    <input type="text" id="posts-search" name="posts-search">
+                </div>
+                <div>
+                    <select name="posts" id="posts-select">
+                        <option value="">Sans filtre</option>
+                        <option value="games">Jeux</option>
+                        <option value="events">Évènements</option>
+                        <option value="well-being">Bien être</option>
+                    </select>
+                </div>
+            </article>
+            <article id="posts-value">
+                <!-- IL FAUT COUPER LES TITRES SI ILS SONT TROP LONG -->
+                {% set posts = ressources.posts|filter(post => post.getStatus() is defined and post.getStatus().getId() == 2)|sort((a, b) => b.id - a.id) %}
+                {% for post in posts %}
+                    <div>
+                        <div>
+                            <div>
+                                {% if ressources.users[post.id].avatarImg is not null %}
+                                    <img src="{{ asset('profiles/' ~ ressources.users[post.id].avatarImg) }}" alt="{{ ressources.users[post.id].firstName ~ ' ' ~ ressources.users[post.id].lastName }}">
+                                {% else %}
+                                    <img src="{{ asset('medias/user-green.png') }}" alt="{{ ressources.users[post.id].firstName ~ ' ' ~ ressources.users[post.id].lastName }}">
+                                {% endif %}
+                                <p>{{ ressources.users[post.id].firstName ~ ' ' ~ ressources.users[post.id].lastName }}</p>
+                            </div>
+                            <a href="/post/{{ post.id }}">{{ post.title }}</a>
+                        </div>
+                        <div>
+                            <a href="{{ path('app_dashboard_valid_ressource', {'id': post.id, 'status': 3}) }}">Valider</a>
+                            <a href="{{ path('app_dashboard_valid_ressource', {'id': post.id, 'status': 1}) }}">Refuser</a>                            
+                        </div>
+                    </div>
+                {% endfor %}
+            </article>
+            <article class="load-more">
+                <a href="#">Voir plus</a>
+            </article>
+        </section>
+
+
+
+        <section id="account-section">
+            <article class="dashboard-title">
+                <span></span>
+                <h2>Comptes</h2>
+                <span></span>
+            </article>
+            <article class="search">
+                <div>
+                    <label for="account-search">
+                        <img src="medias/search-green.png" alt="search">
+                    </label>
+                    <input type="text" id="account-search" name="account-search">
+                </div>
+            </article>
+            <article id="account-value">
+                {% for compte in comptes %}
+                <div class="compte" data-roles="{% for role in compte.getRoles() %}{{ role|replace({'ROLE_': ''})|lower }}{% if not loop.last %},{% endif %}{% endfor %}" data-user-id="{{ compte.id }}" data-first-name="{{ compte.firstName }}" data-last-name="{{ compte.lastName }}" data-avatar="                        {% if compte.avatarImg is not null %}
+                    {{ asset('profiles/' ~ compte.avatarImg) }}" alt="{{ compte.firstName ~ ' ' ~ compte.lastName }}
+                {% else %}
+                    {{ asset('medias/user-green.png') }}" alt="{{ compte.firstName ~ ' ' ~ compte.lastName }}
+                {% endif %}">
+                        {% if compte.avatarImg is not null %}
+                            <img src="{{ asset('profiles/' ~ compte.avatarImg) }}" alt="{{ compte.firstName ~ ' ' ~ compte.lastName }}">
+                        {% else %}
+                            <img src="{{ asset('medias/user-green.png') }}" alt="{{ compte.firstName ~ ' ' ~ compte.lastName }}">
+                        {% endif %}
+                        <p>{{ compte.firstName ~ ' ' ~ compte.lastName }}</p>
+                    </div>
+                {% endfor %}
+            </article>
+            <article class="load-more">
+                <a href="#">Voir plus</a>
+            </article>
+            <article id="account-form">
+                <img src="medias/user-green.png" alt="user1">
+                <p>User 1</p>
+                <select>
+                    <option value="citoyen">Citoyen</option>
+                    <option value="moderateur">Modérateur</option>
+                    <option value="admin">Administrateur</option>
+                    <option value="superAdmin">Super-admin</option>
+                </select>
+                <a href="#" id="valid-account">Valider</a>
+            </article>
+        </section>
+
+
+
+        <section>
+            <article class="dashboard-title">
+                <span></span>
+                <h2>Catégories</h2>
+                <span></span>
+            </article>
+            <article id="cat-value">
+                {% for category in categories %}
+                    <div>
+                        <div class="categoryContainer" data-id="{{ category.id }}">
+                            <img src="medias/user-green.png" alt="{{ category.name }}">
+                            <p>{{ category.name }}</p>
+                        </div>
+                        <div>
+                            <a href="" data-action="edit">Modifier</a>
+                            <a href="{{ path('app_dashboard_delete_category', {'id': category.id}) }}">Supprimer</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <a href="#" id="add-cat">Ajouter</a>
+            </article>
+            <article id="form-cat">
+                <form action="{{ path('app_dashboard_add_category') }}" method="post">
+                    <div>
+                        <label for="name-cat">Nom de la catégorie</label>
+                        <input type="text" name="name-cat" id="name-cat" value="">
+                    </div>
+                    <div>
+                        <button type="submit" id="add-cat-form" class="back-cat-form">Ajouter</button>
+                        <a href="#" id="back-cat-form" id="back-cat-form">Retour</a>
+                    </div>
+                </form>
+            </article>
+        </section>
+
+
+        <section>
+            <article class="dashboard-title">
+                <span></span>
+                <h2>Commentaires</h2>
+                <span></span>
+            </article>
+            <article>
+                <select name="comments" id="comments-select">
+                    <option value="to-valid">À valider</option>
+                    <option value="valid">Valider</option>
+                    <option value="all">Tout</option>
+                </select>
+            </article>
+            <article id="comments-value">
+                <div>
+                    <div>
+                        <div>
+                            <img src="medias/user-green.png" alt="user 1">
+                            <a href="#">User 1</a><!-- le a renvoie vers la ressource du commentaire -->
+                        </div>
+                        <div>
+                            <a href="#">Valider</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                    <p>Le commentaires en question</p>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <img src="medias/user-green.png" alt="user 1">
+                            <a href="#">User 1</a><!-- le a renvoie vers la ressource du commentaire -->
+                        </div>
+                        <div>
+                            <a href="#">Valider</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                    <p>Le commentaires en question</p>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <img src="medias/user-green.png" alt="user 1">
+                            <a href="#">User 1</a><!-- le a renvoie vers la ressource du commentaire -->
+                        </div>
+                        <div>
+                            <a href="#">Valider</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                    <p>Le commentaires en question</p>
+                </div>
+            </article>
+            <article class="load-more">
+                <a href="#">Voir plus</a>
+            </article>
+        </section>
+
+
+        <section id="sav-section">
+            <article class="dashboard-title">
+                <span></span>
+                <h2>SAV</h2>
+                <span></span>
+            </article>
+            <article>
+                <div>
+                    <select name="sav-cat" id="sav-cat-select">
+                        <option value="">Tout</option>
+                        <option value="game">Jeux</option>
+                        <option value="event">Évènements</option>
+                        <option value="well-being">Bien-être</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="sav-etat" id="sav-etat-select">
+                        <option value="">Tout</option>
+                        <option value="game">À traiter</option>
+                        <option value="event">Répondu</option>
+                        <option value="well-being">Publique</option>
+                        <option value="well-being">Privé</option>
+                    </select>
+                </div>
+            </article>
+            <article id="sav-value">
+                {% for question in questions %}
+                    <div class="answer-container">
+                        <div class="question-container">
+                            <p data-id="{{ question.id }}" class="question">{{ question.questions }}</p>
+                            <div>
+                                <a href="#" class="open-sav-form">
+                                    {% if question.answer is not null %}
+                                        Modifier
+                                    {% else %}
+                                        Répondre
+                                    {% endif %}
+                                </a>
+                                <a href="#">
+                                    {% if question.status == 0 or question.status == 1 %}
+                                        Publier
+                                    {% else %}
+                                        Privatiser
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        {% if question.answer is not null %}
+                            <p class="answer">{{ question.answer }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </article>
+            <article id="sav-form">
+                <form>
+                    <p>Réponse à la question :</p>
+                    <p id="existinQuestion"></p>
+                    <textarea name="answer" rows="10"></textarea>
+                    <div>
+                        <button type="submit" class="back-sav-form sav-form-btn">Répondre</button>
+                        <a href="#" class="back-sav-form sav-form-btn">Retour</a>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </main> 
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    
+</body>
+{% endblock %}

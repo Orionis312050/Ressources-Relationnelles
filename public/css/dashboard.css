@@ -1,0 +1,444 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+select, input {
+    width: 150px;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid black;
+}
+
+select:focus, input:focus {
+    border: 2px solid #03989e;
+    outline: none;
+}
+
+/* DASHOBOARD TITLE */
+
+.dashboard-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboard-title span {
+    display: block;
+    background-color: black;
+    height: 2px;
+    width: 30%;
+}
+
+/* STATISTIQUE */
+
+#stat-value {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px 0;
+}
+
+#stat-value div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#stat-value div p:nth-child(1){
+    font-size: 3rem;
+}
+
+/* RESSOURCES */
+
+.search {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search img {
+    width: 40px;
+}
+
+.search>div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    gap: 20px;
+}
+
+#posts-value {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 50px 30px;
+}
+
+#posts-value>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#posts-value>div>div>div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#posts-value>div>div>p {
+    margin-left: 50px;
+}
+
+#posts-value>div>div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#posts-value img {
+    width: 40px;
+}
+
+#posts-value a {
+    text-decoration: none;
+    color: black;
+}
+
+#posts-value a:hover {
+    color: #03989e;
+}
+
+/* COMPTES */
+
+
+#account-value {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 50px 30px;
+}
+
+#account-value div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+#account-value p {
+    cursor: pointer;
+}
+
+#account-value img {
+    width: 40px;
+}
+
+#account-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    background-color: white;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+#account-form img {
+    width: 300px;
+}
+
+#account-form a {
+    text-decoration: none;
+    color: black;
+}
+
+#account-form a:hover {
+    color: #03989e;
+}
+
+/* CATÉGORIES */
+
+#cat-value {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 50px 30px;
+}
+
+#cat-value img{
+    width: 40px;
+}
+
+#cat-value>div {
+    display: flex;
+    justify-content: space-between;
+    width: 45%;
+}
+
+#cat-value>div>div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#cat-value a {
+    text-decoration: none;
+    color: black;
+}
+
+#cat-value a:hover {
+    color: #03989e;
+}
+
+#add-cat {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0 40%;
+    padding: 7px 40px;
+    border-radius: 50px;
+    border: 2px solid #03989e;
+    background-color: white;
+    color: #03989e !important;
+}
+
+#add-cat:hover {
+    background-color: #03989e;
+    color: white !important;
+}
+
+#form-cat {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+#form-cat div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 0;
+}
+
+#form-cat form div:nth-child(3) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#form-cat a {
+    color: black;
+    text-decoration: none;
+}
+
+#form-cat a:hover {
+    color: #03989e;
+}
+
+#form-cat button {
+    background-color: transparent;
+    border: 0;
+    color: #000;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#form-cat button:hover {
+    color: #03989e;
+}
+
+/* VOIR PLUS */
+
+.load-more {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.load-more a {
+    text-decoration: none;
+    color: black;
+}
+
+.load-more a:hover {
+    color: #03989e;
+}
+
+/* COMMENTAIRES */
+
+#comments-value {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px 30px;
+}
+
+#comments-value>div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#comments-value>div>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#comments-value>div>div>div {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+#comments-value img {
+    width: 40px;
+}
+
+#comments-value a {
+    text-decoration: none;
+    color: black;
+}
+
+#comments-value a:hover {
+    color: #03989e;
+}
+
+/* SAV */
+
+#sav-section article:nth-child(2){
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#sav-value {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px 30px;
+}
+
+#sav-value>div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#sav-value>div>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#sav-value>div>div>div {
+    display: flex;
+    gap: 30px;
+}
+
+#sav-value>div>div>p {
+    font-weight: 600;
+}
+
+#sav-value>div>p {
+    margin-left: 50px;
+}
+
+#sav-value a {
+    text-decoration: none;
+    color: black;
+}
+
+#sav-value a:hover {
+    color: #03989e;
+}
+
+#sav-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    background-color: white;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+#sav-form form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#sav-form textarea {
+    width: 100%;
+}
+
+#sav-form div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sav-form-btn {
+    text-decoration: none;
+    color: black;
+}
+
+.sav-form-btn:hover {
+    color: #03989e;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 720px;
+    }
+    #stat-value {
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 50px 30px;
+        gap: 0;
+    }
+    #account-value {
+        gap: 50px;
+    }
+    #account-value div {
+        width: 45%;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 960px;
+    }
+    #account-value div {
+        width: 29%;
+    }
+}

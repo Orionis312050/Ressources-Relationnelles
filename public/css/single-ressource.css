@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+.like-link{
+    background-color: transparent;
+    border: 0;
+}
+
+.favorite-link{
+    background-color: transparent;
+    border: 0;
+}
+
+/* ----- RESSOURCES ----- */
+
+.ressources img {
+    width: 100%;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
+
+.ressources {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.post-infos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.post-infos>div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ressource-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ressource-section>* {
+    object-fit: contain;
+    margin: auto;
+    width: 80%;
+}
+
+#user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#user-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+/* ----- ACTIONS ----- */
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.actions img {
+    height: 30px;
+    object-fit: contain;
+}
+
+.actions-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px 0;
+}
+
+.space {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.line {
+    background-color: black;
+    height: 2px;
+    width: 30%;
+}
+
+/* ----- COMMENTAIRES ----- */
+
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment-section article {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.comment p {
+    text-align: left;
+}
+
+.comment-user a {
+    font-weight: 700;
+}
+
+.answer-comment {
+    margin-left: 50px;
+}
+
+.comment-user img {
+    width: 30px;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 30px;
+}
+
+.comment-actions img {
+    width: 25px;
+}
+
+a {
+    text-decoration: none;
+    color: #03989e;
+}
+
+a:hover {
+    color: black;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 720px;
+    }
+    .ressources>article:nth-child(1) {
+        margin-top: 30px;
+    }
+    .ressources article p, .ressources article h2 {
+        text-align: start;
+        font-size: 1.2rem;
+    }
+    .answer-comment {
+        margin-left: 100px;
+    }
+    .post-infos {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 960px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    .answer-comment {
+        margin-left: 150px;
+    }
+    .ressource-section>* {
+        position: absolute;
+    }
+}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/posts.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/favorite.css') }}">
+    {% endblock %}
+
+    <body>
+        <main class="container">
+            <h1>Favorite</h1>
+
+            <section class="posts">
+                {% for favoritePost in favoritePosts %}
+                    <article class="post">
+                        {# Assuming you have properties like 'author', 'category', 'title', etc., adjust accordingly #}
+                        <div class="autor">
+                    {% if favoritePost.post.getUser().getAvatarImg() is not null %}
+                        <img src="{{ asset('profiles/' ~ favoritePost.post.getUser().getAvatarImg()) }}" alt="Avatar de l'utilisateur">
+                    {% else %}
+                        <img src="{{ asset('medias/user-green.png') }}" alt="Avatar par défaut">
+                    {% endif %}
+
+                    <p>{{ favoritePost.post.getUser().getFirstName() }} {{ favoritePost.post.getUser().getLastName() }}</p>
+                </div>
+                {# {% set postImages = images[favoritePost.post.id] %}
+                    {% if postImages is not empty %}
+                        <div class="img-ressource">
+                            <img class="img-ressource" src="{{ asset(postImages[0].getSrc()) }}" alt="Image du Post">
+                        </div>
+                    {% endif %} #}
+                        
+                        <p class="category">Catégorie : {{ favoritePost.post.getType().name }}</p>
+                        <h2 class="title-ressource">{{ favoritePost.post.title }}</h2>
+                        <p class="description-ressource">{{ favoritePost.post.description }}</p>
+
+
+<button class="button-more-ressource" type="button" onclick="window.location.href = '{{ path('app_post_detail', {'id': favoritePost.post.id}) }}';">En savoir plus</button>                        
+
+               
+
+                    </article>
+                {% endfor %}
+            </section>
+        </main>
+    </body>
+{% endblock %}

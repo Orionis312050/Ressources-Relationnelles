@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href={{ asset('css/help.css') }}>
+    {%  endblock %}
+<body>
+        <main class="container">
+            <section>
+                <h1>Centre d'aide</h1>
+                {% for flashType, flashMessages in app.session.flashBag.all() %}
+                    {% for flashMessage in flashMessages %}
+                        <div class="flash-{{ flashType }}">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}<br><br>
+                <p>Veuillez sélectionnez une fonctionnalitée pour voir les questions déjà posées. Si vous ne trouvez pas de thème correspondant à votre problème, veuillez cliquez sur "Poser une question".</p>
+            </section>
+            <section id="informations">
+                <article>
+                    <div>
+                        <label for="post-creation">Création de post</label>
+                        <input type="checkbox" name="category" id="post-creation" value="post-creation">
+                    </div>
+                    <div>
+                        <label for="connexion">Connexion à mon compte</label>
+                        <input type="checkbox" name="category" id="connexion" value="connexion">
+                    </div>
+                    <div>
+                        <label for="account-creation">Création de compte</label>
+                        <input type="checkbox" name="category" id="account-creation" value="account-creation">
+                    </div>
+                    <div>
+                        <label for="statistique">Statistique</label>
+                        <input type="checkbox" name="category" id="statistique" value="statistique">
+                    </div>
+                    <div>
+                        <label for="fonction">Fonctionnement du site web</label>
+                        <input type="checkbox" name="category" id="fonction" value="fonction">
+                    </div>
+                </article>
+                <article class="questions">
+                    {% for helpEntity in helpEntities %}
+                        <div data-category="{{ helpEntity.getCatégorie() }}">
+                            <input type="checkbox" id="question{{ helpEntity.getId() }}" class="checkbox">
+                            <label for="question{{ helpEntity.getId() }}" class="answer-label">
+                                <p class="question">{{ helpEntity.getQuestions() }}</p>
+                                <span class="deroulant1"></span>
+                                <span class="deroulant2"></span>
+                            </label>
+                            <p class="answer">{{ helpEntity.getAnswer() }}</p>
+                        </div>
+                    {% endfor %}
+                </article>
+            </section>
+            <section id="ask-question-section">
+                <a id="question-button" class="button">Poser une question</a>
+                <article>
+                    <form action="{{ path('app_help_add') }}" method="post" id="question-form">
+                        <a href="{{ path('app_help') }}" id="back">Retour</a>
+                        <div>
+                            <label for="email">Adresse mail :</label>
+                            <input id="email" type="email" name="email">
+                        </div>
+                        <div>
+                            <label for="subject">Quel est le sujet de votre problème ?</label>
+
+                            <select name="subject" id="subject">
+                            <option value="">Choisissez une catégorie</option>
+                            <option value="post-creation">Création de posts</option>
+                            <option value="connexion">Connexion à mon compte</option>
+                            <option value="account-creation">Création de compte</option>
+                            <option value="statistique">Statistique</option>
+                            <option value="fonctionnalitée">Fonctionnement du site web</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="question">Quel est votre question ?</label>
+                            <textarea id="question" name="question"></textarea>
+                        </div>
+                        <a href="#" class="button" onclick="document.getElementById('question-form').submit();">Envoyer votre question</a>
+                    </form>
+                </article>
+            </section>
+        </main>
+        <script src="{{ asset('js/help.js') }}"></script>
+    </body>
+{% endblock %}

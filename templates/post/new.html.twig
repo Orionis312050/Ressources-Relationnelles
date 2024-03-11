@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href={{ asset('css/account.css') }}>
+<main class="container">
+    <h1>Ajouter un post</h1>
+
+    {{ include('post/_form.html.twig') }}
+
+    <a href="{{ path('app_post_index') }}">Retourner à la liste des posts</a>
+</main>
+        {% endblock %}
+{% endblock %}

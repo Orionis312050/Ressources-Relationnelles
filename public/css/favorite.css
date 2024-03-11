@@ -1,0 +1,29 @@
+.folder-article svg{
+    width: 100%;
+    fill: #989898;
+}
+
+.folder-article {
+    padding-top: 20px;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#ariane {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+#ariane a {
+    text-decoration: none;
+    color: #03989e;
+}
+
+#ariane a:hover {
+    color: black;
+}

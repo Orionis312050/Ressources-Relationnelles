@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*HEADER*/
+
+header {
+    background-color: #03989e;
+    padding: 0 40px;
+    position: fixed;
+    width: 100%;
+}
+
+
+#header-logo {
+    width: 100px;
+}
+
+header img {
+    width: 35px;
+}
+
+header ul {
+    display: none;
+    list-style: none;
+}
+
+/*FOOTER*/
+
+footer {
+    background-color: #03989e;
+    width: 100%;
+    padding: 15px 0;
+}
+
+#footer-computer {
+    display: none;
+}
+
+#footer-mobile ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+}
+
+#footer-mobile ul img {
+    height: 30px;
+}
+
+/* AIDE */
+
+header>div {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#help {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    right: 20px;
+    top: 520px;
+    background-color: white;
+    border-radius: 50%;
+    text-align: center;
+    padding: 10px;
+    border: 3px solid #03989e;
+}
+
+#help:hover {
+    background-color: #03989e;
+    border: 3px solid white;
+}
+
+#help svg {
+    height: 100%;
+    fill: #03989e;
+}
+
+#help:hover svg {
+    fill: white;
+}
+
+@media (min-width: 768px){
+    header ul {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+    }
+    header ul img {
+        height: 30px;
+        width: auto;
+    }
+    footer {
+        position: static;
+    }
+    #footer-mobile {
+        display: none;
+    }
+    #footer-computer {
+        display: flex;
+        text-align: center;
+        color: white;
+        padding: 20px 100px;
+        gap: 30px;
+    }
+    #footer-computer div {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        flex: 1 1 30%;
+    }
+    #footer-computer img {
+        width: 80%;
+        margin: auto;
+    }
+    #footer-computer div ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 10px;
+    }
+    #footer-computer div a {
+        text-decoration: none;
+        color: white;
+    }
+    #footer-computer div a:hover {
+        color: #ffbe58;
+    }
+    #footer-computer p {
+        display: flex;
+        flex: 1 1 30%;
+        margin: auto;
+    }
+
+    #help{
+        right: 40px;
+        top: 550px;
+    }
+}
+
+@media (min-width: 992px) {
+    header ul {
+        gap: 90px;
+    }
+    #footer-computer img {
+        width: 50%;
+    }
+}

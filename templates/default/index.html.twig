@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href={{ asset('css/posts.css') }}>
+    {%  endblock %}
+    <style>
+        .footer{
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+        }
+        body{
+            position: relative;
+            min-height: 100vh;
+        }
+        main {
+            padding-top: 90px;
+            padding-bottom: 100px;
+        }
+        @media (min-width: 768px){
+            .footer{
+                position: static;
+            }
+        }
+    </style>
+    <body>
+    <main class="container">
+        <section id="filter-section">
+            <img src={{ asset('medias/filter-green.png') }}>
+        </section>
+        <section class="posts">
+
+            {% for post in posts %}
+            <div class="post">
+                <div class="autor">
+                    {% if post.getUser().getAvatarImg() is not null %}
+                        <img src="{{ asset('profiles/' ~ post.getUser().getAvatarImg()) }}" alt="Avatar de l'utilisateur">
+                    {% else %}
+                        <img src="{{ asset('medias/user-green.png') }}" alt="Avatar par défaut">
+                    {% endif %}
+
+                    <p>{{ post.getUser().getFirstName() }} {{ post.getUser().getLastName() }}</p>
+                </div>
+                {% set postImages = images[post.id] %}
+                    {% if postImages is not empty %}
+                        <div class="img-ressource">
+                            <img class="img-ressource" src="{{ asset(postImages[0].getSrc()) }}" alt="Image du Post">
+                        </div>
+                    {% endif %}
+                <p class="category">Catégorie : {{ post.getType().name }}</p>
+                <h2 class="title-ressource">{{ post.title }}</h2>
+                <p class="description-ressource">{{ post.description }}</p>
+                <button class="button-more-ressource" type="button" onclick="window.location.href = '{{ path('app_post_detail', {'id': post.id}) }}';">En savoir plus</button>
+            </div>
+            {% endfor %}
+
+        </section>
+
+        <section class="spacer">
+            <div class="line-spacer"></div>
+            <p>SUGGESTION</p>
+            <div class="line-spacer"></div>
+        </section>
+
+        <section class="posts">
+            {% set sortedPosts = posts|sort((a, b) => b.id - a.id)|slice(0, 6) %}
+
+            {% for post in sortedPosts %}
+            <div class="post">
+                <div class="autor">
+                    {% if post.getUser().getAvatarImg() is not null %}
+                        <img src="{{ asset('profiles/' ~ post.getUser().getAvatarImg()) }}" alt="Avatar de l'utilisateur">
+                    {% else %}
+                        <img src="{{ asset('medias/user-green.png') }}" alt="Avatar par défaut">
+                    {% endif %}
+
+                    <p>{{ post.getUser().getFirstName() }} {{ post.getUser().getLastName() }}</p>
+                </div>
+                {% set postImages = images[post.id] %}
+                {% if postImages is not empty %}
+                    <div class="img-ressource">
+                        <img class="img-ressource" src="{{ asset(postImages[0].getSrc()) }}" alt="Image du Post">
+                    </div>
+                {% endif %}
+                <p class="category">{{ post.getType().name }}</p>
+                <h2 class="title-ressource">{{ post.title }}</h2>
+                <p class="description-ressource">{{ post.description }}</p>
+                <button class="button-more-ressource" type="button" onclick="window.location.href = '{{ path('app_post_detail', {'id': post.id}) }}';">En savoir plus</button>
+            </div>
+            {% endfor %}
+
+        </section>
+
+    </main>
+
+    </body>
+
+{% endblock %}
