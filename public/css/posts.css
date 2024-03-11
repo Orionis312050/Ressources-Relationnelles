@@ -102,11 +102,6 @@
     height: 2px;
 }
 
-.like-link{
-    background-color: transparent;
-    border: 0;
-}
-
 @media (min-width: 768px) {
     .container {
         width: 720px;

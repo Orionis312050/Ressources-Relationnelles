@@ -40,6 +40,12 @@ savFormBtns.forEach((savFormBtn) => {
         body.style.overflow = "hidden";
     })
 });
+backSavForms.forEach((backSavForm) => {
+    backSavForm.addEventListener('click', () => {
+        savForm.style.display = "none";
+        body.style.overflow = "auto";
+    })
+});
 
 // REQUÊTE AJAX
 
@@ -165,9 +171,43 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             let questionId = questionContainer.querySelector('p').dataset.id;
+            let form = document.querySelector("#sav-form form");
+            form.setAttribute('action', "/dashboard/help/answer/"+questionId);
+
             savForm.addEventListener("input", function() {
                 savForm.innerHTML = savForm.value;
             })
         });
     });
 });
+
+
+// 
+// SEARCH BAR
+// 
+
+let inputs = document.querySelectorAll('.searchbar');
+let listsContainer = document.querySelectorAll('.lists');
+
+inputs.forEach(function(input) {
+    let filter = input.getAttribute('data-filter');
+    let idContainer = filter + "-value";
+    let listContainer = document.getElementById(idContainer);
+    input.addEventListener('input', function() {
+        searchBar(input.value.trim().toLowerCase(), listContainer, idContainer);
+    });
+})
+
+function searchBar(input, listContainer, idContainer) {
+    let items = listContainer.querySelectorAll('#' + idContainer + ' > div');
+    items.forEach(function(item) {
+        for (let i = 0; i < items.length; i++) {
+            let name = item.querySelector('.post-title').textContent.trim().toLowerCase();
+            if (name.includes(input)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        }
+    });
+}

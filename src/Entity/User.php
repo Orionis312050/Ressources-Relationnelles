@@ -413,34 +413,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->role = $roleConverter->roleToInt([$role], $roleRepo);
         return $this;
     }
-
-    /**
-     * @return Collection<int, Post>
-     */
-    public function getReposted(): Collection
-    {
-        return $this->reposted;
-    }
-
-    public function addReposted(Post $reposted): static
-    {
-        if (!$this->reposted->contains($reposted)) {
-            $this->reposted->add($reposted);
-            $reposted->setRepostedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReposted(Post $reposted): static
-    {
-        if ($this->reposted->removeElement($reposted)) {
-            // set the owning side to null (unless already changed)
-            if ($reposted->getRepostedBy() === $this) {
-                $reposted->setRepostedBy(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Favorite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
 
 /**
  * @extends ServiceEntityRepository<Favorite>
@@ -21,17 +20,6 @@ class FavoriteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Favorite::class);
     }
-
-    public function findFavoritePostsByUser(User $user): array
-    {
-        return $this->createQueryBuilder('f')
-            ->join('f.post', 'p')  // Assuming a ManyToOne relation from Favorite to Post
-            ->andWhere('f.user = :user')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
-    }
-    
 
 //    /**
 //     * @return Favorite[] Returns an array of Favorite objects

@@ -24,19 +24,15 @@
                 <div style="position: absolute; top:{{ paragraph.y }}px; left:{{ paragraph.x }}px; width: {{ paragraph.width }}px; height: {{ paragraph.height }}px; z-index:-1;">
                     {{ paragraph.getContent()|raw }}
                 </div>
-            {% endfor %}
+            {% endfor %}                 
         </section>
         <section class="actions-section">
     <article class="actions">
 
 
 
+        <form action="{{ path('app_post_like', {'id': post.getId()}) }}" method="post">
 
-
-<form id="likeForm" action="{{ path('app_post_actions', {'id': post.getId()}) }}" method="post">
-    <input type="hidden" name="_method" value="POST">
-    <p hidden>{{ csrf_token('like_form') }}<p>
-    <input type="hidden" name="action" value="like">
     <button type="submit" class="like-link">
         {% if existingLike %}
             <img src="{{ asset('medias/like-yellow.png')}}" alt="Liker">
@@ -46,34 +42,11 @@
     </button>
 </form>
 
-<form id="favoriteForm" action="{{ path('app_post_actions', {'id': post.getId()}) }}" method="post">
-    <input type="hidden" name="_method" value="POST">
-    <p hidden>{{ csrf_token('favorite_form') }}</p>
-    <input type="hidden" name="action" value="favorite">
-    <button type="submit" class="favorite-link">
-        {% if existingFavorite %}
-            <img src="{{ asset('medias/favorite-yellow.png')}}" alt="Enregistrer">
-        {% else %}
+
+
+        <a href="#">
             <img src="{{ asset('medias/favorite-green.png')}}" alt="Enregistrer">
-        {% endif %}
-    </button>
-</form>
-
-
-<script>
-    document.querySelector('.like-link').addEventListener('click', function () {
-        document.querySelector('#likeForm').submit();
-    });
-
-    document.querySelector('.favorite-link').addEventListener('click', function () {
-        document.querySelector('#favoriteForm').submit();
-    });
-</script>
-
-
-
-
-
+        </a>
         <a href="#">
             <img src="{{ asset('medias/exploited-green.png')}}" alt="Exploiter">
         </a>

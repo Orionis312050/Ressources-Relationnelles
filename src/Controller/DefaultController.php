@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Entity\Favorite;
 use App\Repository\PostRepository;
 use http\Client\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,14 +13,7 @@ use App\Repository\ParagraphesRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Like;
 use App\Repository\LikeRepository;
-use App\Repository\FavoriteRepository;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\VarDumper\VarDumper;
-
-
 
 
 
@@ -65,12 +57,8 @@ class DefaultController extends AbstractController
     }
 
     #[Route("/", name:"app_homepage")]
-    public function post(PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, SessionInterface $session): \Symfony\Component\HttpFoundation\Response
+    public function post(PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository): \Symfony\Component\HttpFoundation\Response
     {
-        $visitDate = new \DateTime();
-        $session->set('visitDates', [$visitDate->format('Y-m-d H:i:s')]);
-
-
         $posts = $postRepository->findAll();
         $images = $imagesRepository->findAll();
         $imagesPosts = [];
@@ -109,41 +97,32 @@ class DefaultController extends AbstractController
         return $this->render('default/catalogue.html.twig', ['posts' => $posts, 'utilisateur' => $utilisateur, 'images' => $imagesPosts]);
     }
 
-    //quand je met la route de app_favorite avant ça fait l'inverse
+    //ça marche bien mais ça s'active même quand je refresh la page
 
-// Controller
+    #[Route("/post/{id}", name: "app_post_like", methods: ['POST'])]
+    public function postLike($id, PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, LikeRepository $likeRepository): \Symfony\Component\HttpFoundation\Response
+    {
 
-
-#[Route("/post/{id}", name: "app_post_actions", methods: ['POST'])]
-public function postActions($id, Request $request, PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, LikeRepository $likeRepository): \Symfony\Component\HttpFoundation\Response
-{
-    $post = $postRepository->find($id);
-    $images = $imagesRepository->findBy(['post_id' => $id]);
-    $paragraphes = $paragraphesRepository->findBy(['post_id' => $id]);
-
-    if (!$this->security->getUser()) {
-        return $this->redirectToRoute('app_login');
-    }
-
-    $post = $this->entityManager->getRepository(Post::class)->find($id);
-
-    if (!$post) {
-        throw $this->createNotFoundException('Post not found');
-    }
-
-    $action = $request->request->get('action');
-
-    $existingLike = $this->entityManager->getRepository(Like::class)->findOneBy([
-        'user' => $this->security->getUser(),
-        'post' => $post,
-    ]);
-
-    $existingFavorite = $this->entityManager->getRepository(Favorite::class)->findOneBy([
-        'user' => $this->security->getUser(),
-        'post' => $post,
-    ]);
-
-    if ($action === 'like') {
+        
+        $post = $postRepository->find($id);
+        $images = $imagesRepository->findBy(['post_id' => $id]);
+        $paragraphes = $paragraphesRepository->findBy(['post_id' => $id]);
+    
+        if (!$this->security->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+    
+        $post = $this->entityManager->getRepository(Post::class)->find($id);
+    
+        if (!$post) {
+            throw $this->createNotFoundException('Post not found');
+        }
+    
+        $existingLike = $this->entityManager->getRepository(Like::class)->findOneBy([
+            'user' => $this->security->getUser(),
+            'post' => $post,
+        ]);
+    
         if (!$existingLike) {
 
             $like = new Like();
@@ -152,132 +131,22 @@ public function postActions($id, Request $request, PostRepository $postRepositor
     
             $this->entityManager->persist($like);
             $this->entityManager->flush();
-    
+
             $existingLike=true;
         }else{
             $this->entityManager->remove($existingLike);
             $this->entityManager->flush();
             $existingLike=false;
+
+        }
     
-        }   
-} elseif ($action === 'favorite') {
-    if (!$existingFavorite) {
-
-        $favorite = new Favorite();
-        $favorite->setUser($this->security->getUser());
-        $favorite->setPost($post);
-
-        $this->entityManager->persist($favorite);
-        $this->entityManager->flush();
-
-        $existingFavorite=true;
-    }else{
-        $this->entityManager->remove($existingFavorite);
-        $this->entityManager->flush();
-        $existingFavorite=false;
+        return $this->redirectToRoute('app_post_like', ['id' => $id]);
 
     }
-    }
-
-    // ... existing logic
-
-    return $this->redirectToRoute('app_post_detail', ['id' => $id]);
-}
-
-#[Route("/post/{id}", name: "app_post_like", methods: ['POST'])]
-public function postLike($id, PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, LikeRepository $likeRepository): \Symfony\Component\HttpFoundation\Response
-{
-
     
-    $post = $postRepository->find($id);
-    $images = $imagesRepository->findBy(['post_id' => $id]);
-    $paragraphes = $paragraphesRepository->findBy(['post_id' => $id]);
-
-    if (!$this->security->getUser()) {
-        return $this->redirectToRoute('app_login');
-    }
-
-    $post = $this->entityManager->getRepository(Post::class)->find($id);
-
-    if (!$post) {
-        throw $this->createNotFoundException('Post not found');
-    }
-
-    $existingLike = $this->entityManager->getRepository(Like::class)->findOneBy([
-        'user' => $this->security->getUser(),
-        'post' => $post,
-    ]);
-
-    if (!$existingLike) {
-
-        $like = new Like();
-        $like->setUser($this->security->getUser());
-        $like->setPost($post);
-
-        $this->entityManager->persist($like);
-        $this->entityManager->flush();
-
-        $existingLike=true;
-    }else{
-        $this->entityManager->remove($existingLike);
-        $this->entityManager->flush();
-        $existingLike=false;
-
-    }
-
-
-    return $this->redirectToRoute('app_post_detail', ['id' => $id]);
-
-}
-
-#[Route("/post/{id}", name: "app_post_favorite", methods: ['POST'])]
-public function postFavorite($id, PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, FavoriteRepository $favoriteRepository): \Symfony\Component\HttpFoundation\Response
-{
-
-    
-    $post = $postRepository->find($id);
-    $images = $imagesRepository->findBy(['post_id' => $id]);
-    $paragraphes = $paragraphesRepository->findBy(['post_id' => $id]);
-
-    if (!$this->security->getUser()) {
-        return $this->redirectToRoute('app_login');
-    }
-
-    $post = $this->entityManager->getRepository(Post::class)->find($id);
-
-    if (!$post) {
-        throw $this->createNotFoundException('Post not found');
-    }
-
-    $existingFavorite = $this->entityManager->getRepository(Favorite::class)->findOneBy([
-        'user' => $this->security->getUser(),
-        'post' => $post,
-    ]);
-
-    if (!$existingFavorite) {
-
-        $favorite = new Favorite();
-        $favorite->setUser($this->security->getUser());
-        $favorite->setPost($post);
-
-        $this->entityManager->persist($favorite);
-        $this->entityManager->flush();
-
-        $existingFavorite=true;
-    }else{
-        $this->entityManager->remove($existingFavorite);
-        $this->entityManager->flush();
-        $existingFavorite=false;
-
-    }
-
-
-    return $this->redirectToRoute('app_post_detail', ['id' => $id]);
-
-}
 
     #[Route("/post/{id}", name: "app_post_detail")]
-    public function postDetail($id, PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, LikeRepository $likeRepository, FavoriteRepository $favoriteRepository): \Symfony\Component\HttpFoundation\Response
+    public function postDetail($id, PostRepository $postRepository, ImagesRepository $imagesRepository, ParagraphesRepository $paragraphesRepository, LikeRepository $likeRepository): \Symfony\Component\HttpFoundation\Response
     {
         $post = $postRepository->find($id);
         $images = $imagesRepository->findBy(['post_id' => $id]);
@@ -299,13 +168,15 @@ public function postFavorite($id, PostRepository $postRepository, ImagesReposito
             'user' => $this->security->getUser(),
             'post' => $post,
         ]);
-
-        $existingFavorite = $this->entityManager->getRepository(Favorite::class)->findOneBy([
-            'user' => $this->security->getUser(),
-            'post' => $post,
-        ]);
         
     
-        return $this->render('default/postDetail.html.twig', ['id' => $id, 'existingLike' => $existingLike, 'existingFavorite' => $existingFavorite,'post' => $post, 'images' => $images, 'paragraphes' => $paragraphes]);
+        return $this->render('default/postDetail.html.twig', ['id' => $id, 'existingLike' => $existingLike, 'post' => $post, 'images' => $images, 'paragraphes' => $paragraphes]);
     }
+
+    
+
+    
+
+
+
 }
