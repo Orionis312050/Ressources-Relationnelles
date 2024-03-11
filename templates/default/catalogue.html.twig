@@ -1,34 +1,16 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
     {% block stylesheets %}
-        <link rel="stylesheet" href={{ asset('css/posts.css') }}>
-    {%  endblock %}
-    <style>
-        .footer{
-            position: fixed;
-            bottom: 0px;
-            width: 100%;
-        }
-        body{
-            position: relative;
-            min-height: 100vh;
-        }
-        main {
-            padding-top: 90px;
-            padding-bottom: 100px;
-        }
-        @media (min-width: 768px){
-            .footer{
-                position: static;
-            }
-        }
-    </style>
+        <link rel="stylesheet" href="{{ asset('css/posts.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/favorite.css') }}">
+    {% endblock %}
+
     <body>
-    <main class="container">
-        <section id="filter-section">
-            <img src={{ asset('medias/filter-green.png') }}>
-        </section>
-        <section class="posts">
+        <main class="container">
+            <h1>Catalogue</h1>
+
+            <section class="posts">
             {% set sortedPosts = posts|sort((a, b) => b.id - a.id) %}
             {% for post in sortedPosts %}
                 <div class="post">
@@ -53,12 +35,37 @@
                     <button class="button-more-ressource" type="button"><a href="{{ path('app_post_detail', {'id': post.id}) }}">En savoir plus</a></button>
                 </div>
             {% endfor %}
+                {% for repostPost in repostPosts %}
+                    <article class="post">
+                        {# Assuming you have properties like 'author', 'category', 'title', etc., adjust accordingly #}
+                        <div class="autor">
+                    {% if repostPost.post.getUser().getAvatarImg() is not null %}
+                        <img src="{{ asset('profiles/' ~ repostPost.post.getUser().getAvatarImg()) }}" alt="Avatar de l'utilisateur">
+                    {% else %}
+                        <img src="{{ asset('medias/user-green.png') }}" alt="Avatar par défaut">
+                    {% endif %}
 
-        </section>
+                    <p>{{ repostPost.post.getUser().getFirstName() }} {{ repostPost.post.getUser().getLastName() }}</p>
+                </div>
+                {# {% set postImages = images[repostPost.post.id] %}
+                    {% if postImages is not empty %}
+                        <div class="img-ressource">
+                            <img class="img-ressource" src="{{ asset(postImages[0].getSrc()) }}" alt="Image du Post">
+                        </div>
+                    {% endif %} #}
+                        
+                        <p class="category">Catégorie : {{ repostPost.post.getType().name }}</p>
+                        <h2 class="title-ressource">{{ repostPost.post.title }}</h2>
+                        <p class="description-ressource">{{ repostPost.post.description }}</p>
 
 
-    </main>
+<button class="button-more-ressource" type="button" onclick="window.location.href = '{{ path('app_post_detail', {'id': repostPost.post.id}) }}';">En savoir plus</button>                        
 
+               
+
+                    </article>
+                {% endfor %}
+            </section>
+        </main>
     </body>
-
 {% endblock %}

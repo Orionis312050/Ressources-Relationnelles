@@ -50,6 +50,10 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $type = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Post $post = null;
+
     /**
      * @ORM\Column(type="string")
      */
@@ -59,6 +63,7 @@ class Post
      * @ORM\Column(type="string")
      */
     private $category;
+    
 
     public function getAuthor(): ?string
     {

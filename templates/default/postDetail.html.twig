@@ -60,6 +60,22 @@
 </form>
 
 
+        <a href="#">
+            <img src="{{ asset('medias/exploited-green.png')}}" alt="Exploiter">
+        </a>
+        
+<form id="repostForm" action="{{ path('app_post_actions', {'id': post.getId()}) }}" method="post">
+    <input type="hidden" name="_method" value="POST">
+    <p hidden>{{ csrf_token('repost_form') }}</p>
+    <input type="hidden" name="action" value="repost">
+    <button type="submit" class="repost-link">
+        {% if existingRepost %}
+            <img src="{{ asset('medias/send-yellow.png')}}" alt="Enregistrer">
+        {% else %}
+            <img src="{{ asset('medias/send-green.png')}}" alt="Enregistrer">
+        {% endif %}
+    </button>
+</form>
 <script>
     document.querySelector('.like-link').addEventListener('click', function () {
         document.querySelector('#likeForm').submit();
@@ -68,18 +84,11 @@
     document.querySelector('.favorite-link').addEventListener('click', function () {
         document.querySelector('#favoriteForm').submit();
     });
+
+    document.querySelector('.repost-link').addEventListener('click', function () {
+        document.querySelector('#repostForm').submit();
+    });
 </script>
-
-
-
-
-
-        <a href="#">
-            <img src="{{ asset('medias/exploited-green.png')}}" alt="Exploiter">
-        </a>
-        <a href="#">
-            <img src="{{ asset('medias/send-green.png')}}" alt="Partager">
-        </a>
     </article>
     <article class="space">
         <div class="line"></div>

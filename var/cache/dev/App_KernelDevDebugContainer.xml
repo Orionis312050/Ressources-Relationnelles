@@ -295,6 +295,13 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\RegistrationController"/>
       </call>
     </service>
+    <service id="App\Controller\RepostController" class="App\Controller\RepostController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\RepostController"/>
+      </call>
+    </service>
     <service id="App\Controller\SearchController" class="App\Controller\SearchController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -381,6 +388,10 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Repository\RepostRepository" class="App\Repository\RepostRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Repository\RoleRepository" class="App\Repository\RoleRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -424,7 +435,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.RPJiBc2"/>
+      <argument type="service" id=".service_locator.Hxiccl3"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -2722,7 +2733,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.RPJiBc2"/>
+      <argument type="service" id=".service_locator.Hxiccl3"/>
     </service>
     <service id="routing.resolver" class="Symfony\Component\Config\Loader\LoaderResolver">
       <call method="addLoader">
@@ -3864,7 +3875,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator._.6eFxl"/>
+      <argument type="service" id=".service_locator.JCPHQt6"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -5829,6 +5840,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RepostController" class="App\Controller\RepostController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RepostController" class="App\Controller\RepostController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\RepostController" class="App\Controller\RepostController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SearchController" class="App\Controller\SearchController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SearchController" class="App\Controller\SearchController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SearchController" class="App\Controller\SearchController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -5873,6 +5887,8 @@
     <service id=".abstract.instanceof.App\Repository\PostRepository" class="App\Repository\PostRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\PostStatusRepository" class="App\Repository\PostStatusRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\PostStatusRepository" class="App\Repository\PostStatusRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\RepostRepository" class="App\Repository\RepostRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\RepostRepository" class="App\Repository\RepostRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\RoleRepository" class="App\Repository\RoleRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\RoleRepository" class="App\Repository\RoleRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserParticipationRepository" class="App\Repository\UserParticipationRepository" autowire="true" abstract="true"/>
@@ -6460,6 +6476,15 @@
         <argument key="postRepository" type="service_closure" id="App\Repository\PostRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.NRIYu4F" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="imagesRepository" type="service_closure" id="App\Repository\ImagesRepository"/>
+        <argument key="paragraphesRepository" type="service_closure" id="App\Repository\ParagraphesRepository"/>
+        <argument key="postRepository" type="service_closure" id="App\Repository\PostRepository"/>
+        <argument key="repostRepository" type="service_closure" id="App\Repository\RepostRepository"/>
+      </argument>
+    </service>
     <service id=".service_locator.RnyZtc6" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6467,6 +6492,16 @@
         <argument key="likeRepository" type="service_closure" id="App\Repository\LikeRepository"/>
         <argument key="paragraphesRepository" type="service_closure" id="App\Repository\ParagraphesRepository"/>
         <argument key="postRepository" type="service_closure" id="App\Repository\PostRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.UoDJIo2" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="imagesRepository" type="service_closure" id="App\Repository\ImagesRepository"/>
+        <argument key="likeRepository" type="service_closure" id="App\Repository\LikeRepository"/>
+        <argument key="paragraphesRepository" type="service_closure" id="App\Repository\ParagraphesRepository"/>
+        <argument key="postRepository" type="service_closure" id="App\Repository\PostRepository"/>
+        <argument key="repostRepository" type="service_closure" id="App\Repository\RepostRepository"/>
       </argument>
     </service>
     <service id=".service_locator._sWni5D" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -6478,7 +6513,7 @@
         <argument key="postRepository" type="service_closure" id="App\Repository\PostRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.O3E2Y_h" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.tOMfDvy" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="favoriteRepository" type="service_closure" id="App\Repository\FavoriteRepository"/>
@@ -6486,6 +6521,7 @@
         <argument key="likeRepository" type="service_closure" id="App\Repository\LikeRepository"/>
         <argument key="paragraphesRepository" type="service_closure" id="App\Repository\ParagraphesRepository"/>
         <argument key="postRepository" type="service_closure" id="App\Repository\PostRepository"/>
+        <argument key="repostyRepository" type="service_closure" id="App\Repository\RepostRepository"/>
       </argument>
     </service>
     <service id=".service_locator.6CwtK4S" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -6550,7 +6586,7 @@
         <argument key="request" type="service_closure" id=".errored.aDDyJk4"/>
       </argument>
     </service>
-    <service id=".service_locator.RPJiBc2" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Hxiccl3" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\Admin\DashboardController::configureUserMenu" type="service_closure" id=".service_locator.t7nLwyX"/>
@@ -6586,12 +6622,13 @@
         <argument key="App\Controller\DashboardController::statistiques" type="service_closure" id=".service_locator.k55bG3z"/>
         <argument key="App\Controller\DashboardController::validRessource" type="service_closure" id=".service_locator.sNmotg3"/>
         <argument key="App\Controller\DefaultController::base" type="service_closure" id=".service_locator.M.WXHx5"/>
-        <argument key="App\Controller\DefaultController::catalogue" type="service_closure" id=".service_locator.8gm2.1E"/>
+        <argument key="App\Controller\DefaultController::catalogue" type="service_closure" id=".service_locator.NRIYu4F"/>
         <argument key="App\Controller\DefaultController::post" type="service_closure" id=".service_locator.8gm2.1E"/>
         <argument key="App\Controller\DefaultController::postActions" type="service_closure" id=".service_locator.RnyZtc6"/>
-        <argument key="App\Controller\DefaultController::postDetail" type="service_closure" id=".service_locator.O3E2Y_h"/>
+        <argument key="App\Controller\DefaultController::postDetail" type="service_closure" id=".service_locator.tOMfDvy"/>
         <argument key="App\Controller\DefaultController::postFavorite" type="service_closure" id=".service_locator._sWni5D"/>
-        <argument key="App\Controller\DefaultController::postLike" type="service_closure" id=".service_locator.RnyZtc6"/>
+        <argument key="App\Controller\DefaultController::postLike" type="service_closure" id=".service_locator.UoDJIo2"/>
+        <argument key="App\Controller\DefaultController::postRepost" type="service_closure" id=".service_locator.NRIYu4F"/>
         <argument key="App\Controller\FavoriteController::index" type="service_closure" id=".service_locator.6CwtK4S"/>
         <argument key="App\Controller\HelpController::addQuestions" type="service_closure" id=".service_locator.Q_mV0WD"/>
         <argument key="App\Controller\HelpController::index" type="service_closure" id=".service_locator.7PIvIXD"/>
@@ -6663,12 +6700,13 @@
         <argument key="App\Controller\DashboardController:statistiques" type="service_closure" id=".service_locator.k55bG3z"/>
         <argument key="App\Controller\DashboardController:validRessource" type="service_closure" id=".service_locator.sNmotg3"/>
         <argument key="App\Controller\DefaultController:base" type="service_closure" id=".service_locator.M.WXHx5"/>
-        <argument key="App\Controller\DefaultController:catalogue" type="service_closure" id=".service_locator.8gm2.1E"/>
+        <argument key="App\Controller\DefaultController:catalogue" type="service_closure" id=".service_locator.NRIYu4F"/>
         <argument key="App\Controller\DefaultController:post" type="service_closure" id=".service_locator.8gm2.1E"/>
         <argument key="App\Controller\DefaultController:postActions" type="service_closure" id=".service_locator.RnyZtc6"/>
-        <argument key="App\Controller\DefaultController:postDetail" type="service_closure" id=".service_locator.O3E2Y_h"/>
+        <argument key="App\Controller\DefaultController:postDetail" type="service_closure" id=".service_locator.tOMfDvy"/>
         <argument key="App\Controller\DefaultController:postFavorite" type="service_closure" id=".service_locator._sWni5D"/>
-        <argument key="App\Controller\DefaultController:postLike" type="service_closure" id=".service_locator.RnyZtc6"/>
+        <argument key="App\Controller\DefaultController:postLike" type="service_closure" id=".service_locator.UoDJIo2"/>
+        <argument key="App\Controller\DefaultController:postRepost" type="service_closure" id=".service_locator.NRIYu4F"/>
         <argument key="App\Controller\FavoriteController:index" type="service_closure" id=".service_locator.6CwtK4S"/>
         <argument key="App\Controller\HelpController:addQuestions" type="service_closure" id=".service_locator.Q_mV0WD"/>
         <argument key="App\Controller\HelpController:index" type="service_closure" id=".service_locator.7PIvIXD"/>
@@ -6823,7 +6861,7 @@
         <argument key="doctrine.orm.listeners.pdo_session_handler_schema_listener" type="service_closure" id="doctrine.orm.listeners.pdo_session_handler_schema_listener"/>
       </argument>
     </service>
-    <service id=".service_locator._.6eFxl" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.JCPHQt6" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\AdminCommentRepository" type="service_closure" id="App\Repository\AdminCommentRepository"/>
@@ -6838,6 +6876,7 @@
         <argument key="App\Repository\ParagraphesRepository" type="service_closure" id="App\Repository\ParagraphesRepository"/>
         <argument key="App\Repository\PostRepository" type="service_closure" id="App\Repository\PostRepository"/>
         <argument key="App\Repository\PostStatusRepository" type="service_closure" id="App\Repository\PostStatusRepository"/>
+        <argument key="App\Repository\RepostRepository" type="service_closure" id="App\Repository\RepostRepository"/>
         <argument key="App\Repository\RoleRepository" type="service_closure" id="App\Repository\RoleRepository"/>
         <argument key="App\Repository\UserParticipationRepository" type="service_closure" id="App\Repository\UserParticipationRepository"/>
         <argument key="App\Repository\UserRepository" type="service_closure" id="App\Repository\UserRepository"/>
@@ -7183,6 +7222,12 @@
     <service id=".service_locator.O2p6Lk7.App\Controller\RegistrationController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\RegistrationController"/>
       <argument>App\Controller\RegistrationController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\RepostController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\RepostController"/>
+      <argument>App\Controller\RepostController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
@@ -8325,7 +8370,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.RPJiBc2"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.Hxiccl3"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -8339,13 +8384,15 @@
     <service id=".service_locator.K78gCNe" alias=".service_locator.k55bG3z"/>
     <service id=".service_locator.MKHrCP3" alias=".service_locator.AighZxN"/>
     <service id=".service_locator..a5istG" alias=".service_locator.8gm2.1E"/>
+    <service id=".service_locator.lkWPvZy" alias=".service_locator.NRIYu4F"/>
     <service id=".service_locator.OoYYYzs" alias=".service_locator.RnyZtc6"/>
+    <service id=".service_locator.cCJDZH_" alias=".service_locator.UoDJIo2"/>
     <service id=".service_locator.2hwxKwk" alias=".service_locator._sWni5D"/>
-    <service id=".service_locator.iVApfAL" alias=".service_locator.O3E2Y_h"/>
+    <service id=".service_locator.3wvM5rc" alias=".service_locator.tOMfDvy"/>
     <service id=".service_locator.Z3z_5ay" alias=".service_locator.Q_mV0WD"/>
     <service id=".service_locator.f4YP24X" alias=".service_locator.ckGzNSR"/>
     <service id=".service_locator.c.VxI5h" alias=".service_locator.oogCZpI"/>
-    <service id=".service_locator.dACs5bK" alias=".service_locator.RPJiBc2"/>
+    <service id=".service_locator.RR1vma4" alias=".service_locator.Hxiccl3"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.Ccz2edK" alias=".service_locator.BR1VzPv"/>
     <service id=".service_locator.LMuqDDe" alias=".service_locator.VHsrTPK"/>
@@ -8383,9 +8430,11 @@
     <service id=".service_locator.t4sMwM2" alias=".service_locator.AighZxN"/>
     <service id=".service_locator..WEANAS" alias=".service_locator.M.WXHx5"/>
     <service id=".service_locator.Pxosbax" alias=".service_locator.8gm2.1E"/>
+    <service id=".service_locator.DlUXvGm" alias=".service_locator.NRIYu4F"/>
     <service id=".service_locator.otVs3qA" alias=".service_locator.RnyZtc6"/>
+    <service id=".service_locator.U7lzgrR" alias=".service_locator.UoDJIo2"/>
     <service id=".service_locator.eh1t7ke" alias=".service_locator._sWni5D"/>
-    <service id=".service_locator.KKwvH.u" alias=".service_locator.O3E2Y_h"/>
+    <service id=".service_locator.9e8CuWM" alias=".service_locator.tOMfDvy"/>
     <service id=".service_locator.msBE5BU" alias=".service_locator.6CwtK4S"/>
     <service id=".service_locator.mZTiv0L" alias=".service_locator.7PIvIXD"/>
     <service id=".service_locator.9faCkAk" alias=".service_locator.Q_mV0WD"/>

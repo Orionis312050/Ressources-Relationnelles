@@ -26,6 +26,7 @@ return [
     'app_post_actions' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::postActions'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/post']], [], [], []],
     'app_post_like' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::postLike'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/post']], [], [], []],
     'app_post_favorite' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::postFavorite'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/post']], [], [], []],
+    'app_post_repost' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::postRepost'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/post']], [], [], []],
     'app_post_detail' => [['id'], ['_controller' => 'App\\Controller\\DefaultController::postDetail'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/post']], [], [], []],
     'app_favorite' => [[], ['_controller' => 'App\\Controller\\FavoriteController::index'], [], [['text', '/favorite']], [], [], []],
     'app_help' => [[], ['_controller' => 'App\\Controller\\HelpController::index'], [], [['text', '/help']], [], [], []],

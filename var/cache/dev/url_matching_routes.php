@@ -80,6 +80,7 @@ return [
             [['_route' => 'app_post_actions', '_controller' => 'App\\Controller\\DefaultController::postActions'], ['id'], ['POST' => 0], null, false, true, null],
             [['_route' => 'app_post_like', '_controller' => 'App\\Controller\\DefaultController::postLike'], ['id'], ['POST' => 0], null, false, true, null],
             [['_route' => 'app_post_favorite', '_controller' => 'App\\Controller\\DefaultController::postFavorite'], ['id'], ['POST' => 0], null, false, true, null],
+            [['_route' => 'app_post_repost', '_controller' => 'App\\Controller\\DefaultController::postRepost'], ['id'], ['POST' => 0], null, false, true, null],
             [['_route' => 'app_post_detail', '_controller' => 'App\\Controller\\DefaultController::postDetail'], ['id'], null, null, false, true, null],
         ],
         304 => [[['_route' => 'app_post_new', '_controller' => 'App\\Controller\\PostController::new'], [], ['GET' => 0, 'POST' => 1], null, false, false, null]],
