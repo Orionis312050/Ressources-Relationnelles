@@ -17,19 +17,30 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\HelpEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 
 class DashboardController extends AbstractController
 {
     private $doctrine;
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(Security $security, ManagerRegistry $doctrine)
     {
+        $this->security = $security;
         $this->doctrine = $doctrine;
     }
 
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(Request $request, UserRepository $userRepository, PostRepository $postRepository, SessionInterface $session, HelpEntityRepository $helpRepository, CategoryRepository $catRepo): Response
     {
+        if (!$this->security->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        $connectUser = $this->security->getUser()->getRoles();
+        $roleUser = $connectUser[0];
+        if ($roleUser == "ROLE_USER"){
+            return $this->redirectToRoute('app_homepage');
+        } 
+
         $stats_filter = "";
         $visits = $this->calculateVisits($session, $stats_filter);
         $userStats = $userRepository->findByStatsForLatestMonth();
@@ -58,6 +69,7 @@ class DashboardController extends AbstractController
         $category = $catRepo->findAll();
 
         return $this->render('dashboard/index.html.twig', [
+            'roleUser' => $roleUser,
             'statistiques' => $statistiques,
             'ressources' => $ressources,
             'comptes' => $comptes,
@@ -210,6 +222,38 @@ class DashboardController extends AbstractController
         $entityManager = $this->doctrine->getManager();
         $entityManager->remove($category);
         $entityManager->flush();
+
+        return $this->redirectToRoute('app_dashboard');
+    }
+
+    #[Route('/dashboard/help/answer/{id}', name: 'app_dashboard_answer_help')]
+    public function answerHelp($id, HelpEntityRepository $helpRepo, Request $request): Response
+    {
+        $formData = $request->request->get('answer');
+        $question = $helpRepo->find($id);
+        $question->setAnswer($formData);
+        $question->setStatus(1);
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('app_dashboard');
+    }
+
+    #[Route('/dashboard/help/private/{id}', name: 'app_dashboard_private_help')]
+    public function privateHelp($id, HelpEntityRepository $helpRepo): Response
+    {
+        $question = $helpRepo->find($id);
+        $question->setStatus(1);
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('app_dashboard');
+    }
+
+    #[Route('/dashboard/help/public/{id}', name: 'app_dashboard_public_help')]
+    public function publicHelp($id, HelpEntityRepository $helpRepo): Response
+    {
+        $question = $helpRepo->find($id);
+        $question->setStatus(2);
+        $this->doctrine->getManager()->flush();
 
         return $this->redirectToRoute('app_dashboard');
     }

@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\FavoriteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FavoriteRepository::class)]
-#[ORM\Table(name: '`favorite`')]
 class Favorite
 {
     #[ORM\Id]
@@ -14,17 +15,46 @@ class Favorite
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'post')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Collection $user;
+
+    #[ORM\ManyToOne(inversedBy: 'favorites')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Post $post = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    public function __construct()
+    {
+        $this->user = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user; 
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->user->removeElement($user);
+
+        return $this;
     }
 
     public function getPost(): ?Post
@@ -35,18 +65,6 @@ class Favorite
     public function setPost(?Post $post): static
     {
         $this->post = $post;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

@@ -42,7 +42,7 @@
         </section>
 
 
-
+        {% if roleUser == 'ROLE_MODERATOR' %}
         <section>
             <article class="dashboard-title">
                 <span></span>
@@ -54,7 +54,7 @@
                     <label for="posts-search">
                         <img src="medias/search-green.png" alt="search">
                     </label>
-                    <input type="text" id="posts-search" name="posts-search">
+                    <input data-filter="posts" type="text" id="posts-search" name="posts-search" class="searchbar">
                 </div>
                 <div>
                     <select name="posts" id="posts-select">
@@ -79,7 +79,7 @@
                                 {% endif %}
                                 <p>{{ ressources.users[post.id].firstName ~ ' ' ~ ressources.users[post.id].lastName }}</p>
                             </div>
-                            <a href="/post/{{ post.id }}">{{ post.title }}</a>
+                            <a href="/post/{{ post.id }}" class="post-title">{{ post.title }}</a>
                         </div>
                         <div>
                             <a href="{{ path('app_dashboard_valid_ressource', {'id': post.id, 'status': 3}) }}">Valider</a>
@@ -92,9 +92,10 @@
                 <a href="#">Voir plus</a>
             </article>
         </section>
+        {% endif %}
 
 
-
+        {% if roleUser == 'ROLE_ADMIN' or roleUser == 'ROLE_SUPERADMIN' %}
         <section id="account-section">
             <article class="dashboard-title">
                 <span></span>
@@ -106,7 +107,7 @@
                     <label for="account-search">
                         <img src="medias/search-green.png" alt="search">
                     </label>
-                    <input type="text" id="account-search" name="account-search">
+                    <input data-filter="account" type="text" id="account-search" name="account-search"  class="searchbar">
                 </div>
             </article>
             <article id="account-value">
@@ -121,7 +122,7 @@
                         {% else %}
                             <img src="{{ asset('medias/user-green.png') }}" alt="{{ compte.firstName ~ ' ' ~ compte.lastName }}">
                         {% endif %}
-                        <p>{{ compte.firstName ~ ' ' ~ compte.lastName }}</p>
+                        <p class="post-title">{{ compte.firstName ~ ' ' ~ compte.lastName }}</p>
                     </div>
                 {% endfor %}
             </article>
@@ -177,8 +178,9 @@
                 </form>
             </article>
         </section>
+        {% endif %}
 
-
+        {% if roleUser == 'ROLE_MODERATOR' %}
         <section>
             <article class="dashboard-title">
                 <span></span>
@@ -237,8 +239,9 @@
                 <a href="#">Voir plus</a>
             </article>
         </section>
+        {% endif %}
 
-
+        {% if roleUser == 'ROLE_ADMIN' or roleUser == 'ROLE_SUPERADMIN' %}
         <section id="sav-section">
             <article class="dashboard-title">
                 <span></span>
@@ -277,13 +280,12 @@
                                         Répondre
                                     {% endif %}
                                 </a>
-                                <a href="#">
-                                    {% if question.status == 0 or question.status == 1 %}
-                                        Publier
-                                    {% else %}
-                                        Privatiser
-                                    {% endif %}
-                                </a>
+                                
+                                {% if question.status == 0 or question.status == 1 %}
+                                    <a href="{{ path('app_dashboard_public_help', {'id': question.id}) }}">Publier</a>
+                                {% else %}
+                                    <a href="{{ path('app_dashboard_private_help', {'id': question.id}) }}">Privatiser</a>
+                                {% endif %}
                             </div>
                         </div>
                         {% if question.answer is not null %}
@@ -293,7 +295,7 @@
                 {% endfor %}
             </article>
             <article id="sav-form">
-                <form>
+                <form method="post">
                     <p>Réponse à la question :</p>
                     <p id="existinQuestion"></p>
                     <textarea name="answer" rows="10"></textarea>
@@ -304,6 +306,7 @@
                 </form>
             </article>
         </section>
+        {% endif %}
     </main> 
     <script src="{{ asset('js/dashboard.js') }}"></script>
     
